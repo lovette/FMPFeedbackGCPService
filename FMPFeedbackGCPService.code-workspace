@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.pythonPath": "${workspaceFolder}/.venv",
+		"python.languageServer": "Pylance",
+		"python.linting.flake8Enabled": true,
+		"python.formatting.provider": "autopep8",
+		"python.formatting.autopep8Args": [
+			"--max-line-length=150"
+		],
+		"files.exclude": {
+			"**/__pycache__": true,
+			"**/.venv": true
+		}
+	}}

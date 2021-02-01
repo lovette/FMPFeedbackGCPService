@@ -1,0 +1,28 @@
+#
+# This file is used by pip-compile to generate requirements.txt.
+# https://pypi.org/project/pip-tools/
+#
+# To update requirements.txt, run:
+#
+#    make requirements
+#
+# To install and update packages, run:
+#
+#   pip-sync
+#
+# To update referenced packages to current version, run:
+#
+#   pip-compile --upgrade
+#
+
+# Packages below will be combined with those in requirements.txt for each cloud function.
+
+# Allow local testing with Caddyserver
+gunicorn
+
+# Cloud Functions install Flask by default so must include here to run local
+flask
+
+# Visual Studio Code
+autopep8
+flake8

@@ -1,0 +1,29 @@
+{
+    # Issue all certificates internally by default, rather than through
+    # a (public) ACME CA such as Let's Encrypt.
+    # This is useful in development environments.
+    local_certs
+
+    # Do not redirect from :80 to :443
+    auto_https disable_redirects
+
+    # Enable debug mode, which sets all log levels to debug.
+    debug
+}
+
+# Include these options for reverse proxy to Python app
+(proxy_headers) {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forwarded-Proto {scheme}
+}
+
+localhost {
+    tls internal
+
+    # All requests go through Python app (e.g. gunicorn)
+    reverse_proxy localhost:8000 {
+        import proxy_headers
+    }
+
+    log
+}

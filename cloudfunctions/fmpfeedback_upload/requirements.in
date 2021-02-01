@@ -1,0 +1,21 @@
+#
+# This file is used by pip-compile to generate requirements.txt.
+# https://pypi.org/project/pip-tools/
+#
+# To update requirements.txt, run:
+#
+#    pip-compile
+#
+# To install and update packages, run:
+#
+#   pip-sync
+#
+# To update referenced packages to current version, run:
+#
+#   pip-compile --upgrade
+#
+
+google-cloud-firestore
+
+# Read environment variables from .env file
+python-dotenv
