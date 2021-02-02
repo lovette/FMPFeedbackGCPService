@@ -10,6 +10,20 @@ Everything you need for a turnkey (and potentially free, if not low-cost) soluti
 
 To get up and running, you need to setup and configure a few Google Cloud Platform services and integrate *FMPFeedbackForm* and *FMPFeedbackGCPServiceSender* into your macOS app.
 
+## Services Architecture
+
+The architecture involes a few services but is overall not too complicated.
+
+![Services Architecture Diagram](https://user-images.githubusercontent.com/430169/106538830-e26e8f80-64ca-11eb-89c4-6023fcb2208d.png)
+
+The basic workflow is:
+
+1. macOS app (client) submits feedback to public Cloud Functions.
+2. Cloud Functions store feedback in a Firestore collection.
+3. A message is published to a Pub/Sub topic that notifies subscribers feedback was submitted.
+4. Pub/Sub subscribers take action on the feedback, such as forwarding via email.
+5. A periodic task performs housekeeping on the Firestore collection.
+
 ## Google Cloud Platform Deployment
 
 [Google Cloud Platform](https://cloud.google.com/) provides a wide range of services with a boundless number of ways to get started. While the instructions below should give you a general idea what you need to accomplish, for the most part you're on your own in setting up an account and configuring your project.
