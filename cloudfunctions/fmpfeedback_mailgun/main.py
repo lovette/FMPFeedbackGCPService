@@ -14,7 +14,7 @@ __copyright__ = "Copyright (c) 2021 Lance Lovette"
 __license__ = "MIT"
 
 
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Request
 from google.cloud import firestore
 from google.cloud.firestore_v1.base_document import DocumentSnapshot  # for type annotation
@@ -298,7 +298,7 @@ def _fmpfeedback_mailgun_send(fs_feedback_doc: DocumentSnapshot) -> bool:
         print(f"Mailgun message accepted: message-id {message_id}")
 
         feedback_doc.update({
-            FEEDBACKDOC_FIELD_ARCHIVEDTIMESTAMP: datetime.utcnow().isoformat(),
+            FEEDBACKDOC_FIELD_ARCHIVEDTIMESTAMP: datetime.now(timezone.utc).isoformat(timespec="seconds"),
             FEEDBACKDOC_FIELD_MAILGUN_MESSAGEID: message_id,
         })
 

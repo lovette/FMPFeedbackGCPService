@@ -14,7 +14,7 @@ __copyright__ = "Copyright (c) 2021 Lance Lovette"
 __license__ = "MIT"
 
 
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Request, abort
 from google.cloud import firestore, pubsub
 from typing import Any
@@ -177,7 +177,7 @@ def fmpfeedback_comment(request: Request) -> Any:
 
             feedback_doc.update({
                 FEEDBACKDOC_FIELD_EMAIL: feedback_email,
-                FEEDBACKDOC_FIELD_CREATETIMESTAMP: datetime.utcnow().isoformat(),
+                FEEDBACKDOC_FIELD_CREATETIMESTAMP: datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 FEEDBACKDOC_FIELD_CLIENTIP: request.headers.get("X-Forwarded-For", request.remote_addr),
             })
 

@@ -16,7 +16,7 @@ __copyright__ = "Copyright (c) 2021 Lance Lovette"
 __license__ = "MIT"
 
 
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import jsonify
 from flask import Request, abort
 from google.cloud import firestore
@@ -175,7 +175,7 @@ def fmpfeedback_upload(request: Request) -> Any:
             # Stub feedback document, remaining feedback details will be set by fmpfeedback_comment
             feedback_doc = {
                 FEEDBACKDOC_FIELD_EMAIL: feedback_email,
-                FEEDBACKDOC_FIELD_CREATETIMESTAMP: datetime.utcnow().isoformat(),
+                FEEDBACKDOC_FIELD_CREATETIMESTAMP: datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 FEEDBACKDOC_FIELD_CLIENTIP: request.headers.get("X-Forwarded-For", request.remote_addr),
                 FEEDBACKDOC_FIELD_HASUPLOADS: True,
             }
