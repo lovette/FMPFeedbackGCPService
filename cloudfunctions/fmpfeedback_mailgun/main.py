@@ -236,7 +236,7 @@ def _fmpfeedback_mailgun_send(fs_feedback_doc: DocumentSnapshot) -> bool:
 
     for field in (FEEDBACKDOC_FIELD_EMAIL, FEEDBACKDOC_FIELD_SUBJECT, FEEDBACKDOC_FIELD_MESSAGE):
         if not feedback_doc[field]:
-            _abort_return(f"Ignoring feedback document {fs_feedback_doc.id}: Field '{field}' value is not set")
+            print(f"Ignoring feedback document {fs_feedback_doc.id}: Field '{field}' value is not set")
 
     attachments = []
 
@@ -244,13 +244,13 @@ def _fmpfeedback_mailgun_send(fs_feedback_doc: DocumentSnapshot) -> bool:
         try:
             fs_upload_docs = fs_feedback_doc.reference.collection(FEEDBACK_UPLOADS_SUBCOLLECTION).get()
         except google.auth.exceptions.GoogleAuthError as e:  # GoogleAuthError(Exception)
-            _abort_return(f"Firestore auth exception: {e}")
+            return _abort_return(f"Firestore auth exception: {e}")
         except google.api_core.exceptions.ClientError as e:  # ClientError(GoogleAPICallError)
-            _abort_return(f"Firestore client exception: {e}")
+            return _abort_return(f"Firestore client exception: {e}")
         except google.api_core.exceptions.GoogleAPIError as e:  # GoogleAPIError(Exception)
-            _abort_return(f"Firestore API exception: {e}")
+            return _abort_return(f"Firestore API exception: {e}")
         except Exception as e:
-            _abort_return(f"Unexpected exception: {e}")
+            return _abort_return(f"Unexpected exception: {e}")
         else:
             for fs_upload_doc in fs_upload_docs:
                 upload_doc = fs_upload_doc.to_dict()
@@ -286,11 +286,11 @@ def _fmpfeedback_mailgun_send(fs_feedback_doc: DocumentSnapshot) -> bool:
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as e:
-        _abort_return(f"Mailgun API HTTP exception: {e}")
+        return _abort_return(f"Mailgun API HTTP exception: {e}")
     except requests.exceptions.RequestException as e:
-        _abort_return(f"Mailgun API request exception: {e}")
+        return _abort_return(f"Mailgun API request exception: {e}")
     except Exception as e:
-        _abort_return(f"Mailgun API unexpected exception: {e}")
+        return _abort_return(f"Mailgun API unexpected exception: {e}")
     else:
         response_json = response.json()
         message_id = response_json["id"][1:-1]  # "<id>"
