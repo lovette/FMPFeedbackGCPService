@@ -112,6 +112,7 @@ def fmpfeedback_upload(request: Request) -> Any:
     auth_username = request.authorization.username  # foo@bar.com/token
     auth_token = request.authorization.password     # FEEDBACK_SENDER_AUTHTOKEN
     feedback_email = auth_username.removesuffix("/token")
+    x_forwarded_for = next(iter(request.headers.get("X-Forwarded-For", "").split(',', 1))).strip()  # IP1 in "IP1, IP2,..., IPN"
 
     if not auth_username:
         return _abort_return("BAD AUTH")
@@ -176,7 +177,7 @@ def fmpfeedback_upload(request: Request) -> Any:
             feedback_doc = {
                 FEEDBACKDOC_FIELD_EMAIL: feedback_email,
                 FEEDBACKDOC_FIELD_CREATETIMESTAMP: datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                FEEDBACKDOC_FIELD_CLIENTIP: request.headers.get("X-Forwarded-For", request.remote_addr),
+                FEEDBACKDOC_FIELD_CLIENTIP: x_forwarded_for or request.remote_addr,
                 FEEDBACKDOC_FIELD_HASUPLOADS: True,
             }
 

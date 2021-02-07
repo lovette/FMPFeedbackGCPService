@@ -107,6 +107,7 @@ def fmpfeedback_comment(request: Request) -> Any:
 
     auth_username = request.authorization.username  # foo@bar.com/token
     auth_token = request.authorization.password     # FEEDBACK_SENDER_AUTHTOKEN
+    x_forwarded_for = next(iter(request.headers.get("X-Forwarded-For", "").split(',', 1))).strip()  # IP1 in "IP1, IP2,..., IPN"
 
     if request.content_type != "application/json":
         return _abort_return("BAD CONTENT")
@@ -178,7 +179,7 @@ def fmpfeedback_comment(request: Request) -> Any:
             feedback_doc.update({
                 FEEDBACKDOC_FIELD_EMAIL: feedback_email,
                 FEEDBACKDOC_FIELD_CREATETIMESTAMP: datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                FEEDBACKDOC_FIELD_CLIENTIP: request.headers.get("X-Forwarded-For", request.remote_addr),
+                FEEDBACKDOC_FIELD_CLIENTIP: x_forwarded_for or request.remote_addr,
             })
 
             # Store feedback document
