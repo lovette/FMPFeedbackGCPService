@@ -297,12 +297,12 @@ def _fmpfeedback_mailgun_send(fs_feedback_doc: DocumentSnapshot) -> bool:
 
         print(f"Mailgun message accepted: message-id {message_id}")
 
-        feedback_doc.update({
+        feedback_doc_updates = {
             FEEDBACKDOC_FIELD_ARCHIVEDTIMESTAMP: datetime.now(timezone.utc).isoformat(timespec="seconds"),
             FEEDBACKDOC_FIELD_MAILGUN_MESSAGEID: message_id,
-        })
+        }
 
         # Tag message as being dealt with
-        fs_feedback_doc.reference.update(feedback_doc)
+        fs_feedback_doc.reference.update(feedback_doc_updates)
 
     return True
