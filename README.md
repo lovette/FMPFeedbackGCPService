@@ -42,7 +42,7 @@ Create a [Service Account](https://console.cloud.google.com/iam-admin/serviceacc
 
 The service account will need these roles:
 
-- Firebase Admin
+- Cloud Datastore User
 - Pub/Sub Editor
 
 Download the JSON keyfile for the service account and set the Runtime Environment Variable `GOOGLE_APPLICATION_CREDENTIALS` in file `.env` to its path. This will enable local development access to authentication credentials.
