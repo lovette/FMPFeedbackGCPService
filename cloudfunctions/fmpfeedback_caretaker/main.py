@@ -60,8 +60,8 @@ FEEDBACKDOC_FIELD_MESSAGE = "feedbackMessage"
 FEEDBACKDOC_FIELD_NAME = "feedbackName"
 FEEDBACKDOC_FIELD_SUBJECT = "feedbackSubject"
 
-CARETAKER_REPUBLISH_AFTER = os.getenv("CARETAKER_REPUBLISH_AFTER", 24)  # hours
-CARETAKER_KEEP_HISTORY = os.getenv("CARETAKER_KEEP_HISTORY", 30)  # days
+CARETAKER_REPUBLISH_AFTER = int(os.getenv("CARETAKER_REPUBLISH_AFTER", 24))  # hours
+CARETAKER_KEEP_HISTORY = int(os.getenv("CARETAKER_KEEP_HISTORY", 30))  # days
 
 
 #####################################################################
